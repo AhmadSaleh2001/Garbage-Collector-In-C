@@ -293,7 +293,7 @@ void print_memory_report(object_db_t *obj_db)
   {
     if (!curr->is_visited)
     {
-      printf("Item with struct name %s and address %p, is not deallocated\n", curr->struct_info->struct_name, curr->objcet_ptr);
+      printf("Item with struct name %s with address %p, is not deallocated\n", curr->struct_info->struct_name, curr->objcet_ptr);
     }
 
     curr = curr->next;

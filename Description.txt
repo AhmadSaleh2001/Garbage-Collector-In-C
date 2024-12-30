@@ -1,0 +1,9 @@
+Simple garbage collector
+
+1. we will register our possible structs to be used
+2. allocate needed objects using function "xalloc"
+3. set some of the allocated objects as root
+  a. if some object is not root, and our MLD (Memory leakage detector) cant reach it
+    meaning this object is causing memory leak
+
+4. Running MLD algorithm and print reports

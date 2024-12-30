@@ -61,7 +61,7 @@ int main()
   std2->age = 99;
   std2->rollno = 12;
   std2->student_mark = xalloc(obj_db, "int *", 1);
-  *std2->student_mark = -1;
+  *std2->student_mark = 999999;
   set_object_as_root(obj_db, std2);
 
   emp_t *emp1 = xalloc(obj_db, "emp_t", 1);
@@ -77,7 +77,8 @@ int main()
   strcpy(emp2->emp_name, "employee2");
   emp2->mgr = emp1;
   emp2->salary = 3000;
-  set_object_as_root(obj_db, emp2);
+
+  set_object_as_root(obj_db, emp1);
 
   /*
      Finish Allocating our objects using "xalloc"
