@@ -35,6 +35,7 @@ typedef enum
   FLOAT,
   DOUBLE,
   OBJ_STRUCT,
+  INT32_PRIMITIVE_PTR,
 } field_type_t;
 
 typedef struct field_info_

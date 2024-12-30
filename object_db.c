@@ -235,8 +235,32 @@ void print_data_from_field_info(object_db_t *obj_db, field_info_t *field_info, u
     case DOUBLE:
       printf("field name: %s, field data: %f\n", field_info[cnt].field_name, *((double *)(data + offset)));
       break;
+    case INT32_PRIMITIVE_PTR:
+    {
+      void *nested_object_field_offset = (data + offset);
+      char *nested_structure_name = field_info[cnt].nested_structure_name;
+      unsigned int field_size = field_info[cnt].size;
+      void *nested_object_address = NULL;
+      memcpy(&nested_object_address, nested_object_field_offset, sizeof(void *));
+
+      printf("field name: %s, field data: %p, nested struct name: %s\n", field_info[cnt].field_name, nested_object_address, nested_structure_name);
+      if (nested_object_address != NULL)
+      {
+        object_db_record_t *nested_object_record = object_db_record_lookup(obj_db, nested_object_address);
+        if (nested_object_record)
+        {
+          print_indentation(indentation + 1);
+          printf("value: %d\n", *((int *)nested_object_record->objcet_ptr));
+          traverse_record_db_objects(obj_db, nested_object_record, indentation + 1);
+        }
+      }
+    }
+
+    break;
+
     case OBJ_PTR:
 
+    {
       void *nested_object_field_offset = (data + offset);
       char *nested_structure_name = field_info[cnt].nested_structure_name;
       unsigned int field_size = field_info[cnt].size;
@@ -252,6 +276,7 @@ void print_data_from_field_info(object_db_t *obj_db, field_info_t *field_info, u
           traverse_record_db_objects(obj_db, nested_object_record, indentation + 1);
         }
       }
+    }
 
       break;
     }
@@ -261,6 +286,8 @@ void print_data_from_field_info(object_db_t *obj_db, field_info_t *field_info, u
 
 void print_memory_report(object_db_t *obj_db)
 {
+
+  printf("######### Memory Report #########\n");
   object_db_record_t *curr = obj_db->object_db_head;
   while (curr)
   {
@@ -271,4 +298,5 @@ void print_memory_report(object_db_t *obj_db)
 
     curr = curr->next;
   }
+  printf("######### Memory Report #########\n");
 }
