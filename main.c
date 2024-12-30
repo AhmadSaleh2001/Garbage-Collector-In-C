@@ -8,6 +8,9 @@
 int main()
 {
 
+  /*
+    Start Register Possible structs / primitive ptrs to be used
+  */
   structure_db_t *struct_db = calloc(1, sizeof(structure_db_t));
 
   static field_info_t emp_fields[] = {
@@ -31,21 +34,25 @@ int main()
   REGISTER_STRUCTURE(struct_db, emp_t, emp_fields);
   REGISTER_STRUCTURE(struct_db, int *, int_ptr_fields);
 
-  // print_structure_db(struct_db);
+  /*
+    Finish Register Possible structs / primitive ptrs to be used
+  */
 
-  // printf("");
+  /*
+     Start Allocating our objects using "xalloc"
+  */
 
   object_db_t *obj_db = init_object_db(struct_db);
   student_t *stds1 = xalloc(obj_db, "student_t", 2);
   strcpy(stds1[0].stud_name, "ahmad");
   stds1[0].age = 20;
   stds1[0].rollno = 1;
-  // stds1[0].student_mark = NULL;
+  stds1[0].student_mark = NULL;
 
   strcpy(stds1[1].stud_name, "ali");
   stds1[1].age = 30;
   stds1[1].rollno = 2;
-  // stds1[1].student_mark = NULL;
+  stds1[1].student_mark = NULL;
 
   set_object_as_root(obj_db, stds1);
 
@@ -57,23 +64,34 @@ int main()
   *std2->student_mark = -1;
   set_object_as_root(obj_db, std2);
 
-  // emp_t *emp1 = xalloc(obj_db, "emp_t", 1);
-  // emp1->emp_id = 11;
-  // emp1->age = 20;
-  // strcpy(emp1->emp_name, "employee1");
-  // emp1->mgr = NULL;
-  // emp1->salary = 2000;
+  emp_t *emp1 = xalloc(obj_db, "emp_t", 1);
+  emp1->emp_id = 11;
+  emp1->age = 20;
+  strcpy(emp1->emp_name, "employee1");
+  emp1->mgr = NULL;
+  emp1->salary = 2000;
 
-  // emp_t *emp2 = xalloc(obj_db, "emp_t", 1);
-  // emp2->emp_id = 222;
-  // emp2->age = 33;
-  // strcpy(emp2->emp_name, "employee2");
-  // emp2->mgr = emp1;
-  // emp2->salary = 3000;
-  // set_object_as_root(obj_db, emp2);
+  emp_t *emp2 = xalloc(obj_db, "emp_t", 1);
+  emp2->emp_id = 222;
+  emp2->age = 33;
+  strcpy(emp2->emp_name, "employee2");
+  emp2->mgr = emp1;
+  emp2->salary = 3000;
+  set_object_as_root(obj_db, emp2);
 
+  /*
+     Finish Allocating our objects using "xalloc"
+  */
+
+  /*
+      Start running our memory detector alogorithm
+   */
   run_memory_detector_algorithm(obj_db);
   print_memory_report(obj_db);
+
+  /*
+      Finish running our memory detector alogorithm
+   */
 
   return 0;
 }
