@@ -75,10 +75,21 @@ int main()
   emp2->emp_id = 222;
   emp2->age = 33;
   strcpy(emp2->emp_name, "employee2");
-  emp2->mgr = emp1;
+  emp2->mgr = NULL;
   emp2->salary = 3000;
+  set_object_as_root(obj_db, emp2);
+  /*
+    Start running our memory detector alogorithm
+ */
+  run_memory_detector_algorithm(obj_db);
+  print_memory_report(obj_db);
 
-  set_object_as_root(obj_db, emp1);
+  /*
+      Finish running our memory detector alogorithm
+   */
+
+  printf("\n");
+  emp2->mgr = emp1;
 
   /*
      Finish Allocating our objects using "xalloc"

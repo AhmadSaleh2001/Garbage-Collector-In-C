@@ -138,7 +138,7 @@ object_db_record_t *object_db_record_lookup(object_db_t *obj_db, void *object_ad
 void run_memory_detector_algorithm(object_db_t *obj_db)
 {
   printf("######### Running MLD algorithm #########\n");
-
+  reset_status(obj_db);
   object_db_record_t *curr = obj_db->object_db_head;
   while (curr)
   {
@@ -151,6 +151,16 @@ void run_memory_detector_algorithm(object_db_t *obj_db)
   }
 
   printf("######### Running MLD algorithm #########\n");
+}
+
+void reset_status(object_db_t *obj_db)
+{
+  object_db_record_t *curr = obj_db->object_db_head;
+  while (curr)
+  {
+    curr->is_visited = false;
+    curr = curr->next;
+  }
 }
 
 void print_object_db(object_db_t *obj_db)
